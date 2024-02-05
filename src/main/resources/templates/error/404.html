@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <div th:replace="~{common :: myheader}"></div>
+  <title>Page Not Found</title>
+</head>
+
+<body>
+
+  <div th:replace="~{common :: myerrornav}"></div>
+
+  <br><br>
+
+  <div class="container">
+    <div class="row mt-4 mb-4">
+      <div class="col-lg-12">
+        <h1>Page not found</h1>
+        <p>Click <a th:href="@{/}">Home</a>to go to the home page</p>
+      </div>
+    </div>
+  </div>
+
+  <div th:insert="~{common :: myfooter}"></div>
+</body>
+
+</html>
