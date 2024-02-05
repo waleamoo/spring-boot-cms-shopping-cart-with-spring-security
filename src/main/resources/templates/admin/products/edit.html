@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<div th:replace="~{common :: myheader}"></div>
+	<title>CMS Shopping Cart System | Edit Product</title>
+</head>
+
+<body>
+
+	<div th:replace="~{common :: myadminnav}"></div>
+
+	<br><br>
+	
+	<div class="container">
+		<div class="row mt-4">
+			<div class="col-lg-12">
+
+				<div class="row my-4">
+					<div class="col-md-12">
+						<h1 th:text="'Edit ' + ( ${productName} ? ${productName} : ${product.name} )"></h1>
+						<a href="/admin/products" class="btn btn-primary">&lt;&lt; Back to products</a>
+					</div>
+				</div>
+
+				<!-- Notification message  -->
+				<div th:if="${message}" th:text="${message}" th:class="${'alert ' + alertClass}"></div>
+
+				<div class="row my-4">
+					<div class="col-md-12">
+						<h3>Fill the form below to add a new page.</h3>
+					
+						<form th:action="@{/admin/products/edit}" th:object="${product}" method="post"
+							enctype="multipart/form-data">
+
+
+							<div th:object="${product}" th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+								There are errors in the form:
+								<div th:if="${#fields.hasAnyErrors()}">
+									<ul>
+										<li th:each="err : ${#fields.allErrors()}" th:text="${err}"></li>
+									</ul>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label for="name">Name</label>
+								<input type="text" class="form-control" th:field="*{name}" placeholder="Name" />
+								<span class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+							</div>
+
+							<div class="form-group">
+								<label for="description">Description</label>
+								<textarea class="form-control" th:field="*{description}" placeholder="Description"
+									rows="10" cols="30"></textarea>
+								<span class="error" th:if="${#fields.hasErrors('description')}"
+									th:errors="*{description}"></span>
+							</div>
+
+							<div class="form-group">
+								<label for="file">Image</label>
+								<input type="file" class="form-control-file" th:name="file" th:id="file"
+									aria-describedby="fileHelpId">
+								<small id="fileHelpId" class="form-text text-muted">Upload .png, .jpg or .jpeg file</small>
+								
+							</div>
+
+							<table class="table border-0">
+								<tr>
+									<td><img src="/media/noimage.png" class="mt-2" alt="Product Image" id="imgPreview1" width="200"></td>
+									<td>
+										<label for="">Current Image</label>
+										<br>
+										<img th:src="@{'/media/' + ${product.image}}" alt="Product Image" style="width: 200px;">
+									</td>
+								</tr>
+							</table>
+
+							<div class="form-group">
+								<label for="price">Price</label>
+								<input type="text" class="form-control" th:field="*{price}" placeholder="Price (e.g. 29.99)" />
+								<span class="error" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></span>
+							</div>
+
+							<div class="form-group">
+								<label for="category">Category</label>
+								<select class="custom-select" th:field="*{categoryId}">
+									<option th:value="0">Select one</option> 
+									<option th:each="cat: ${categories}" th:value="${cat.id}" th:text="${cat.name}"></option>
+								</select>
+								<span class="error" th:if="${#fields.hasErrors('categoryId')}" th:errors="*{categoryId}"></span>
+							</div>
+
+							<input type="hidden" th:field="*{id}" th:value="${product.id}">
+
+							<button class="btn btn-success btn-lg mb-5">Edit Product</button>
+						</form>
+					</div>				
+				</div>
+				
+			</div>
+		</div>
+	</div>
+	
+	<div th:insert="~{common :: myfooter}"></div>
+	<script>
+		$(function () {
+
+			function readURL(input, idNum) {
+				if (input.files && input.files[0]) {
+					let reader = new FileReader();
+					reader.onload = function (e) {
+						$("#imgPreview" + idNum).attr("src", e.target.result).width(200).height(100);
+					}
+					reader.readAsDataURL(input.files[0]);
+				}
+			}
+			$("#file").change(function () {
+				readURL(this, "1")
+			});
+		})
+	</script>
+</body>
+
+</html>

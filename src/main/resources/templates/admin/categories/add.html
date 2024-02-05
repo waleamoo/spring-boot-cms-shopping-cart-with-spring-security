@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<div th:replace="~{common :: myheader}"></div>
+	<title>CMS Shopping Cart System | Add Category</title>
+</head>
+
+<body>
+
+	<div th:replace="~{common :: myadminnav}"></div>
+
+	<br><br>
+	
+	<div class="container">
+		<div class="row mt-4">
+			<div class="col-lg-12">
+
+				<div class="row my-4">
+					<div class="col-md-12">
+						<h1>Add Category</h1>
+						<a href="/admin/categories" class="btn btn-primary">&lt;&lt; Back to categories</a>
+					</div>
+				</div>
+
+				<div th:if="${message}" th:text="${message}" th:class="${'alert ' + alertClass}"></div>
+
+				<div class="row my-4">
+					<div class="col-md-12">
+						<h3>Fill the form below to add a new category.</h3>
+					
+						<form th:action="@{/admin/categories/add}" th:object="${category}" method="post">
+
+							<div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+								There are errors in the form 
+							</div>
+
+							<div class="form-group">
+								<label for="name">Name</label>
+								<input type="text" class="form-control" th:id="name" th:name="name" th:value="${categoryInfo?.name}" placeholder="Name" />
+								<span class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+							</div>
+							
+							<button class="btn btn-success btn-lg mb-5">Add Category</button>
+						</form>	
+					</div>				
+				</div>
+				
+			</div>
+		</div>
+	</div>
+	
+	<div th:insert="~{common :: myfooter}"></div>
+</body>
+
+</html>

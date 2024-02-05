@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<div th:replace="~{common :: myheader}"></div>
+	<title>CMS Shopping Cart System | Register</title>
+</head>
+
+<body>
+
+	<div th:replace="~{common :: mynav}"></div>
+
+	<br><br>
+	
+	<div class="container-fluid">
+		<div class="row mt-4">
+			<div class="col-lg-12">
+				<div class="row">
+					<div class="col">
+						<div th:replace="~{common :: mycategories }"></div>
+						<div th:replace="~{common :: mycart }"></div>
+					</div>
+					<div class="col-6">
+						<h3 class="display-4">Register</h3>
+
+						<form th:action="@{/register}" th:object="${user}" method="post">
+
+							<div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+								There are errors 
+							</div>
+
+							<div class="form-group">
+								<label for="username">Username</label>
+								<input type="text" class="form-control" th:field="*{username}" placeholder="Usernme" />
+								<span class="error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
+							</div>
+
+							<div class="form-group">
+								<label for="password">Password</label>
+								<input type="password" class="form-control" th:field="*{password}" placeholder="Password" />
+								<span class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+							</div>
+
+							<div class="form-group">
+								<label for="confirmPassword">Confrim Password</label>
+								<input type="password" class="form-control" th:field="*{confirmPassword}" placeholder="Confirm Password" />
+								<span class="error" th:if="${passwordMatchProblem}">Passwords do not match</span>
+								
+							</div>
+
+							<div class="form-group">
+								<label for="email">Email</label>
+								<input type="email" class="form-control" th:field="*{email}" placeholder="Email Address" />
+								<span class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+							</div>
+
+							<div class="form-group">
+								<label for="phoneNumber">Phone Number</label>
+								<input type="text" class="form-control" th:field="*{phoneNumber}" placeholder="Phone Number" />
+								<span class="error" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></span>
+							</div>
+							
+							<button class="btn btn-success btn-lg mb-5">Register </button>
+						</form>	
+
+					</div>
+					<div class="col">
+						
+					</div>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+	
+	<div th:insert="~{common :: myfooter}"></div>
+</body>
+
+</html>

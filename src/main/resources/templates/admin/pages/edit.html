@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<div th:replace="~{common :: myheader}"></div>
+	<title>CMS Shopping Cart System | Edit Page</title>
+</head>
+
+<body>
+
+	<div th:replace="~{common :: myadminnav}"></div>
+
+	<br><br>
+	
+	<div class="container">
+		<div class="row mt-4">
+			<div class="col-lg-12">
+
+				<div class="row my-4">
+					<div class="col-md-12">
+						<h1 th:text="'Edit ' + ( ${pageTitle} ? ${pageTitle} : ${page.title} )"></h1>
+						<a href="/admin/pages" class="btn btn-primary">&lt;&lt; Back to pages</a>
+					</div>
+				</div>
+
+				<!-- Notification message  -->
+				<div th:if="${message}" th:text="${message}" th:class="${'alert ' + alertClass}"></div>
+
+				<div class="row my-4">
+					<div class="col-md-12">
+						<h3>Fill the form below to add a new page.</h3>
+					
+						<form th:action="@{/admin/pages/edit}" th:object="${page}" method="post">
+
+							<div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+								There are errors 
+							</div>
+
+							<div class="form-group">
+								<label for="title">Title</label>
+								<input type="text" class="form-control" th:field="*{title}" th:value="${page.title}" placeholder="Title" />
+								<span class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span>
+							</div>
+							<div class="form-group" th:classappend="${page.slug == 'home'} ? 'd-none' : ''">
+								<label for="slug">Slug</label>
+								<input type="text" class="form-control" th:field="*{slug}" th:value="${page.slug}" placeholder="Slug" />
+								<span class="error" th:if="${#fields.hasErrors('slug')}" th:errors="*{slug}"></span>
+							</div>
+							<div class="form-group">
+								<label for="content">Content</label>
+								<textarea rows="10" cols="10" class="form-control" th:field="*{content}" th:value="${page.content}" placeholder="Content"></textarea>
+								<span class="error" th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></span>
+							</div>
+
+							<input type="hidden" th:field="*{id}" th:value="${page.id}">
+							<input type="hidden" th:field="*{sorting}" th:value="${page.sorting}">
+							
+							<button class="btn btn-success btn-lg mb-5">Edit Page</button>
+						</form>	
+					</div>				
+				</div>
+				
+			</div>
+		</div>
+	</div>
+	
+	<div th:insert="~{common :: myfooter}"></div>
+</body>
+
+</html>
